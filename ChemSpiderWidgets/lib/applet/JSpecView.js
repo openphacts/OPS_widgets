@@ -1,7 +1,6 @@
 ﻿Ext.define('CS.applet.JSpecView', {
     extend: 'Ext.Component',
     alias: 'widget.jspecview',
-    baseUrl: 'http://www.chemspider.com',
     backgroundcolor: '#ffffff',
     layout: 'fit',
     gridon: false,
@@ -31,7 +30,7 @@
                     {
                         tag: 'param',
                         name: 'script',
-                        value: 'load ' + this.baseUrl + '/FilesHandler.ashx?type=blob&disp=1&id=' + this.specId + '; reverseplot ' + this.reverseplot + '; gridon ' + this.gridon + '; backgroundcolor ' + this.backgroundcolor + ';'
+                        value: 'load ' + CS.config.Settings.baseUrl + '/FilesHandler.ashx?type=blob&disp=1&id=' + this.specId + '; reverseplot ' + this.reverseplot + '; gridon ' + this.gridon + '; backgroundcolor ' + this.backgroundcolor + ';'
                     },
                     {
                         tag: 'param',
@@ -56,7 +55,7 @@
                     {
                         tag: 'param',
                         name: 'script',
-                        value: 'load ' + this.baseUrl + '/FilesHandler.ashx?type=blob&disp=1&id=' + this.specId + '; reverseplot ' + this.reverseplot + '; gridon ' + this.gridon + '; backgroundcolor ' + this.backgroundcolor + ';'
+                        value: 'load ' + CS.config.Settings.baseUrl + '/FilesHandler.ashx?type=blob&disp=1&id=' + this.specId + '; reverseplot ' + this.reverseplot + '; gridon ' + this.gridon + '; backgroundcolor ' + this.backgroundcolor + ';'
                     },
                     {
                         tag: 'param',
