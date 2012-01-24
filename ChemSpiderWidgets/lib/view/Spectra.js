@@ -24,8 +24,6 @@
         }
     },
     onResize: function () {
-        alert('spectra resized: ' + width + "x" + height)
-
         this.callParent(arguments);
     },
     loadData: function (compound) {

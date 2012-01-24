@@ -46,7 +46,6 @@
     onRender: function () {
         this.autoEl = Ext.apply({ name: this.id }, this.initialConfig, this.autoEl);
         this.callParent(arguments);
-        alert(this.getEl().dom.codebase);
     },
     setMol: function (mol) {
         this.getEl().dom.setMolFile(mol);
