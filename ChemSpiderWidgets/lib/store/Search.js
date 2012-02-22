@@ -6,6 +6,12 @@
     constructor: function () {
         this.callParent(arguments);
 
+        if(this.operation != '')
+            this.setOperation(this.operation);
+    },
+    setOperation: function (operation) {
+        this.operation = operation;
+
         this.setProxy({
             type: 'jsonp',
             url: CS.config.Settings.baseUrl + '/JSON.ashx?op=' + this.operation,

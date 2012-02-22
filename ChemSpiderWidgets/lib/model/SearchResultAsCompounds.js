@@ -1,4 +1,4 @@
-﻿Ext.define('CS.model.SearchResults', {
+﻿Ext.define('CS.model.SearchResultAsCompounds', {
     extend: 'Ext.data.Model',
     id: 'CSID',
     fields: [

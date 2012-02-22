@@ -1,0 +1,5 @@
+E:\Projects\RSC\OpenPHACTS\OPS_widgets\ChemSpiderWidgets\bin\ExtJSDemo.dll
+E:\Projects\RSC\OpenPHACTS\OPS_widgets\ChemSpiderWidgets\bin\ExtJSDemo.pdb
+E:\Projects\RSC\OpenPHACTS\OPS_widgets\ChemSpiderWidgets\obj\Debug\ResolveAssemblyReference.cache
+E:\Projects\RSC\OpenPHACTS\OPS_widgets\ChemSpiderWidgets\obj\Debug\ExtJSDemo.dll
+E:\Projects\RSC\OpenPHACTS\OPS_widgets\ChemSpiderWidgets\obj\Debug\ExtJSDemo.pdb

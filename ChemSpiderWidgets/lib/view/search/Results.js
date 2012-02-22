@@ -1,9 +1,9 @@
 Ext.define('CS.view.search.Results', {
     extend: 'Ext.view.View',
-    requires: ['CS.store.SearchResults', 'CS.config.Settings'],
+    requires: ['CS.store.SearchResultAsCompounds', 'CS.config.Settings'],
     alias: 'widget.cs.searchresults',
     autoScroll: true,
-    store: Ext.create('CS.store.SearchResults', {}),
+    store: Ext.create('CS.store.SearchResultAsCompounds', {}),
     loadingText: 'Loading...',
     itemSelector: 'div.resWrap',
     overItemCls: 'resOver',

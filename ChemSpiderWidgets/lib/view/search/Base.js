@@ -5,36 +5,36 @@ Ext.define('CS.view.search.Base', {
 
         this.statusStore = Ext.create('CS.store.SearchStatus', {});
     },
-    searchProgress: function () {
-        return this.searchStatus.Progress;
-    },
-    searchCount: function () {
-        return this.searchStatus.Count;
-    },
-    searchMessage: function () {
-        return this.searchStatus.Message;
-    },
-    searchStatus: function () {
-        return this.searchStatus.Status;
-    },
+//    searchProgress: function () {
+//        return this.searchStatus.Progress;
+//    },
+//    searchCount: function () {
+//        return this.searchStatus.Count;
+//    },
+//    searchMessage: function () {
+//        return this.searchStatus.Message;
+//    },
+//    searchStatus: function () {
+//        return this.searchStatus.Status;
+//    },
     updateSearchStatus: function () {
-        this.statusStore.load({
-            params: { rid: this.rid },
-            scope: this,
-            callback: function (records, options, success) {
-                this.searchStatus = records[0].data;
+//        this.statusStore.load({
+//            params: { rid: this.rid },
+//            scope: this,
+//            callback: function (records, options, success) {
+//                this.searchStatus = records[0].data;
 
-                if (this.searchProgress() == 1) {
-                    Ext.MessageBox.updateProgress(100, this.searchCount() + ' record(s) found');
-                    Ext.defer(Ext.MessageBox.hide, 1000, Ext.MessageBox);
-                    Ext.defer(this.showSearchResults, 1000, this);
-                }
-                else {
-                    Ext.MessageBox.updateProgress(Math.round(100 * this.searchProgress()));
-                    Ext.defer(this.updateSearchStatus, 1000, this);
-                }
-            }
-        });
+//                if (this.searchProgress() == 1) {
+//                    Ext.MessageBox.updateProgress(100, this.searchCount() + ' record(s) found');
+//                    Ext.defer(Ext.MessageBox.hide, 1000, Ext.MessageBox);
+//                    Ext.defer(this.showSearchResults, 1000, this);
+//                }
+//                else {
+//                    Ext.MessageBox.updateProgress(Math.round(100 * this.searchProgress()));
+//                    Ext.defer(this.updateSearchStatus, 1000, this);
+//                }
+//            }
+//        });
     },
     getResultsWindow: function () {
         if (this.resultsWnd == null) {

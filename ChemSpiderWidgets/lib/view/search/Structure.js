@@ -21,60 +21,61 @@ Ext.define('CS.view.search.Structure', {
         });
     },
     initComponent: function () {
-        //  compose data store for ExactStructureSearch...
-        this.exactStructureSearchStore = Ext.create('CS.store.Search', { operation: 'ExactStructureSearch' });
-
-        //  compose data store for SubstructureSearch...
-        this.subStructureSearchStore = Ext.create('CS.store.Search', { operation: 'SubstructureSearch' });
+        var oThis = this;
+        this.searchEngine = Ext.create('CS.engine.search.Structure', {
+            listeners: {
+                finished: function (sender, rid) {
+                    oThis.rid = rid;
+                    oThis.showSearchResults();
+                }
+            }
+        });
 
         this.callParent(arguments);
     },
     doSearch: function () {
-        var activeTab = this.tabs.getActiveTab();
-        var index = this.tabs.items.findIndex('id', activeTab.id);
+        var activeTab = this.tabs.getActiveTab().id;
 
         var smiles;
-        if (index == 0) {
+        if (activeTab == 'jchempaint-tab') {
             smiles = Ext.getCmp('jChemPaint').getSmiles();
         }
-        else if (index == 1) {
+        else if (activeTab == 'jme-tab') {
             smiles = Ext.getCmp('jme').getSmiles();
+        }
+        else if (activeTab == 'ketcher-tab') {
+            smiles = Ext.getCmp('ketcher').getSmiles();
         }
 
         this.getWindow().hide();
 
         if (smiles != '') {
-            Ext.MessageBox.show({
-                title: 'Searching...',
-                progressText: 'Searching...',
-                width: 300,
-                buttons: Ext.MessageBox.CANCEL,
-                fn: function (btnId) {
-                    Ext.MessageBox.alert('Cancel', 'Cancel search... not implemented yet');
-                },
-                progress: true,
-                closable: false
-            });
+            var searchType = '';
+            var params = {};
+            params['searchOptions.Molecule'] = smiles;
 
             if (Ext.getCmp('exactSearch').checked) {
-                this.exactStructureSearchStore.load({
-                    params: { 'searchOptions.Molecule': smiles },
-                    scope: this,
-                    callback: function () {
-                        this.rid = this.exactStructureSearchStore.getProxy().reader.rawData;
-                        this.updateSearchStatus();
-                    }
-                });
+                searchType = 'exact';
+            }
+            else if (Ext.getCmp('substructureSearch').checked) {
+                searchType = 'substructure';
+            }
+            else if (Ext.getCmp('similaritySearch').checked) {
+                searchType = 'similarity';
+                params['searchOptions.Threshold'] = 0.99;
+                params['searchOptions.SimilarityType'] = 'Tanimoto';
             }
             else {
-                Ext.Msg.show({
-                    title: 'Not supported',
-                    msg: 'Only exact structure search supported at this momment',
-                    buttons: Ext.Msg.OK,
-                    scope: this,
-                    icon: Ext.MessageBox.INFO
+                Ext.MessageBox.show({
+                    title: 'Error',
+                    msg: 'Similarity search: Unknown structure search type',
+                    buttons: Ext.MessageBox.OK,
+                    icon: Ext.MessageBox.ERROR
                 });
             }
+
+            if (searchType != '')
+                this.searchEngine.doSearch(searchType, params);
         }
         else {
             Ext.Msg.show({
@@ -96,21 +97,28 @@ Ext.define('CS.view.search.Structure', {
                 deferredRender: false,
                 items: [
                     {
-                        title: 'JChemPaint',
-                        items: Ext.create('CS.applet.JChemPaint', { id: 'jChemPaint' })
+                        id: 'ketcher-tab',
+                        title: 'Ketcher',
+                        items: Ext.create('CS.applet.Ketcher', { id: 'ketcher', width: 680, height: 520 })
                     },
                     {
+                        id: 'jchempaint-tab',
+                        title: 'JChemPaint',
+                        items: Ext.create('CS.applet.JChemPaint', { id: 'jChemPaint', width: 680, height: 520 })
+                    },
+                    {
+                        id: 'jme-tab',
                         title: 'JME',
-                        items: Ext.create('CS.applet.JME', { id: 'jme' })
+                        items: Ext.create('CS.applet.JME', { id: 'jme', width: 680, height: 520 })
                     }
                 ]
             });
 
             this.wnd = new Ext.Window({
                 width: 700,
-                height: 580,
+                height: 630,
                 closeAction: 'hide',
-                title: 'Structure Search',
+                title: 'Draw structure',
                 border: true,
                 shadow: true,
                 items: [
@@ -118,7 +126,7 @@ Ext.define('CS.view.search.Structure', {
                     {
                         xtype: 'radiogroup',
                         id: 'searchType',
-                        width: 300,
+                        width: 450,
                         items: [
                             {
                                 id: 'exactSearch',
@@ -131,8 +139,13 @@ Ext.define('CS.view.search.Structure', {
                                 id: 'substructureSearch',
                                 name: 'searchType',
                                 boxLabel: 'Substructure search',
-                                inputValue: 'substructure',
-                                disabled: true
+                                inputValue: 'substructure'
+                            },
+                            {
+                                id: 'similaritySearch',
+                                name: 'searchType',
+                                boxLabel: 'Similarity search',
+                                inputValue: 'similarity'
                             }
                         ]
                     }

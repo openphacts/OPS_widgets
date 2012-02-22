@@ -12,7 +12,6 @@ Ext.define('CS.view.search.Simple', {
                     xtype: 'textfield',
                     id: 'searchField',
                     emptyText: 'eg. Aspirin',
-                    //value: 'c6h7',
                     columnWidth: 1
                 },
                 {
@@ -22,39 +21,28 @@ Ext.define('CS.view.search.Simple', {
                     width: 80,
                     scope: this,
                     handler: function (btn, evn) {
-                        this.doSimpleSearch();
+                        this.doSearch();
                     }
                 }
             ]
         });
 
-        this.store = Ext.create('CS.store.Search', { operation: 'SimpleSearch' });
+        var oThis = this;
+        this.searchEngine = Ext.create('CS.engine.search.Simple', {
+            listeners: {
+                finished: function (sender, rid) {
+                    oThis.rid = rid;
+                    oThis.showSearchResults();
+                }
+            }
+        });
 
         this.callParent(arguments);
     },
-    doSimpleSearch: function () {
+    doSearch: function () {
         var query = Ext.getCmp('searchField').getValue();
         if (query != '') {
-            Ext.MessageBox.show({
-                title: 'Searching...',
-                progressText: 'Searching...',
-                width: 300,
-                buttons: Ext.MessageBox.CANCEL,
-                fn: function (btnId) {
-                    Ext.MessageBox.alert('Cancel', 'Cancel search... not implemented yet');
-                },
-                progress: true,
-                closable: false
-            });
-
-            this.store.load({
-                params: { 'searchOptions.QueryText': query },
-                scope: this,
-                callback: function (records, options, success) {
-                    this.rid = this.store.getProxy().reader.rawData;
-                    this.updateSearchStatus();
-                }
-            });
+            this.searchEngine.doSearch({ 'searchOptions.QueryText': query });
         }
         else {
             Ext.Msg.show({
