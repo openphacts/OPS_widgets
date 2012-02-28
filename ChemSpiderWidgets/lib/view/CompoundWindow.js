@@ -68,12 +68,22 @@
 
         this.compoundStore.load({
             params: { 'csids[0]': csid },
-            callback: function () {
-                var compound = oThis.compoundStore.first();
+            callback: function (records, operation, success) {
+                if(success) {
+                    var compound = oThis.compoundStore.first();
 
-                oThis.compoundInfo.loadData(compound);
-                oThis.synonyms.loadData(compound);
-                oThis.datasources.loadData(compound);
+                    oThis.compoundInfo.loadData(compound);
+                    oThis.synonyms.loadData(compound);
+                    oThis.datasources.loadData(compound);
+                }
+                else {
+                    Ext.MessageBox.show({
+                        title: 'Error',
+                        msg: 'Cannot get compoun details for CSID - ' + csid + ': ' + operation.error,
+                        buttons: Ext.MessageBox.OK,
+                        icon: Ext.MessageBox.ERROR
+                    });
+                }
 
                 oThis.loadingMask.hide();
             }
