@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controller\Main.js" />
+    <Content Include="app\controller\Search.js" />
     <Content Include="ext\bootstrap.js" />
     <Content Include="ext\builds\ext-all-sandbox-debug.js" />
     <Content Include="ext\builds\ext-all-sandbox-dev.js" />
@@ -4703,6 +4704,7 @@
     <Content Include="lib\third\ketcher\ui\ui.js" />
     <Content Include="lib\view\BaseProperties.js" />
     <Content Include="lib\view\Compound.js" />
+    <Content Include="lib\view\CompoundWindow.js" />
     <Content Include="lib\view\DataSources.js" />
     <Content Include="lib\view\Molecule2D.js" />
     <Content Include="lib\view\Molecule3D.js" />

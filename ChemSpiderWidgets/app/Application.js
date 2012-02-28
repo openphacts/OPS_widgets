@@ -1,7 +1,7 @@
 ﻿Ext.application({
     name: 'ChemSpider',
     autoCreateViewport: true,
-    controllers: ['Main'],
+    controllers: ['Main', 'Search'],
     launch: function () {
     }
 });
